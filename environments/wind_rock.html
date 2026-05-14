@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风吼岩 - 异星环境基座</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #070505;
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  }
+  .planet {
+    position: relative;
+    width: min(94vw, 980px);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 8px;
+    background:
+      radial-gradient(ellipse at 18% 90%, rgba(255, 118, 42, 0.28) 0%, transparent 32%),
+      radial-gradient(ellipse at 74% 100%, rgba(220, 70, 28, 0.24) 0%, transparent 34%),
+      linear-gradient(180deg, #15110f 0%, #221410 42%, #3d1f16 72%, #130b09 100%);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), inset 0 0 120px rgba(0, 0, 0, 0.62);
+    animation: shake 1.2s ease-in-out infinite;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    18% { transform: translate(-1px, 1px); }
+    36% { transform: translate(1px, -1px); }
+    54% { transform: translate(-1px, -1px); }
+    72% { transform: translate(1px, 1px); }
+  }
+  .label {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    z-index: 20;
+    color: rgba(255, 244, 229, 0.84);
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+  .arch {
+    position: absolute;
+    bottom: 18%;
+    left: 7%;
+    width: 18%;
+    height: 34%;
+    border: min(1.1vw, 10px) solid rgba(75, 55, 42, 0.82);
+    border-bottom: 0;
+    border-radius: 52% 52% 0 0;
+    filter: drop-shadow(0 24px 22px rgba(0, 0, 0, 0.38));
+  }
+  .arch::after {
+    content: "";
+    position: absolute;
+    inset: 18% 20% 0;
+    border: min(0.7vw, 6px) solid rgba(22, 15, 12, 0.64);
+    border-bottom: 0;
+    border-radius: 50% 50% 0 0;
+  }
+  .ridge {
+    position: absolute;
+    left: -6%;
+    right: -6%;
+    bottom: 0;
+    height: 23%;
+    background:
+      linear-gradient(140deg, transparent 0 12%, rgba(30, 20, 16, 0.96) 12% 22%, transparent 22% 31%, rgba(46, 28, 20, 0.98) 31% 44%, transparent 44% 55%, rgba(27, 18, 15, 0.98) 55% 72%, transparent 72%),
+      linear-gradient(180deg, transparent 0%, #170d0b 64%, #090605 100%);
+    clip-path: polygon(0 80%, 10% 56%, 22% 72%, 35% 40%, 48% 68%, 63% 48%, 77% 76%, 90% 38%, 100% 62%, 100% 100%, 0 100%);
+  }
+  .crack {
+    position: absolute;
+    bottom: 6%;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 148, 56, 0.95), rgba(255, 72, 28, 0.7), transparent);
+    box-shadow: 0 0 20px rgba(255, 94, 28, 0.72);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .c1 { left: 16%; width: 28%; transform: rotate(-3deg); }
+  .c2 { left: 56%; width: 32%; bottom: 9%; transform: rotate(2deg); animation-delay: 600ms; }
+  .c3 { left: 36%; width: 18%; bottom: 15%; transform: rotate(9deg); animation-delay: 1.2s; }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.48; filter: blur(1px); }
+    50% { opacity: 1; filter: blur(0); }
+  }
+  .wind-line, .debris {
+    position: absolute;
+    pointer-events: none;
+  }
+  .wind-line {
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 248, 226, 0.84), transparent);
+    animation: wind linear infinite;
+  }
+  @keyframes wind {
+    from { transform: translateX(-25vw); opacity: 0; }
+    18%, 80% { opacity: 1; }
+    to { transform: translateX(110vw); opacity: 0; }
+  }
+  .debris {
+    width: 7px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(180, 150, 118, 0.9);
+    animation: fly linear infinite;
+  }
+  @keyframes fly {
+    from { transform: translateX(-40px) translateY(0) rotate(0deg); opacity: 0; }
+    12%, 85% { opacity: 1; }
+    to { transform: translateX(1040px) translateY(-38px) rotate(260deg); opacity: 0; }
+  }
+  .stage {
+    position: absolute;
+    top: 51%;
+    left: 53%;
+    z-index: 12;
+    width: min(34%, 330px);
+    aspect-ratio: 1 / 0.88;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: rgba(255, 244, 229, 0.9);
+    border: 3px dashed rgba(255, 244, 229, 0.52);
+    border-radius: 8px;
+    background: rgba(6, 5, 5, 0.28);
+    box-shadow: 0 0 28px rgba(255, 118, 42, 0.18);
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 118, 42, 0.14); }
+    50% { box-shadow: 0 0 38px rgba(255, 118, 42, 0.34); }
+  }
+  .stage strong { display: block; font-size: 22px; margin-bottom: 8px; }
+  .stage small { color: rgba(255, 244, 229, 0.66); line-height: 1.7; }
+</style>
+</head>
+<body>
+<main class="planet" id="planet" aria-label="风吼岩环境">
+  <div class="label">风吼岩 / 强风、岩石、地热裂缝</div>
+  <div class="arch" aria-hidden="true"></div>
+  <div class="ridge" aria-hidden="true"></div>
+  <div class="crack c1" aria-hidden="true"></div>
+  <div class="crack c2" aria-hidden="true"></div>
+  <div class="crack c3" aria-hidden="true"></div>
+  <section class="stage" id="creature-stage">
+    <div><strong>异星生物舞台</strong><small>学生将在这里加入锚定、抗风或地热适应型生物</small></div>
+  </section>
+</main>
+<script>
+  const planet = document.getElementById("planet");
+  for (let i = 0; i < 15; i++) {
+    const line = document.createElement("i");
+    line.className = "wind-line";
+    line.style.top = `${8 + Math.random() * 76}%`;
+    line.style.left = `${-20 + Math.random() * 30}%`;
+    line.style.width = `${190 + Math.random() * 420}px`;
+    line.style.animationDuration = `${2.4 + Math.random() * 3.4}s`;
+    line.style.animationDelay = `${Math.random() * 3.2}s`;
+    planet.appendChild(line);
+  }
+  for (let i = 0; i < 30; i++) {
+    const d = document.createElement("i");
+    d.className = "debris";
+    d.style.top = `${8 + Math.random() * 78}%`;
+    d.style.left = `${-8 + Math.random() * 18}%`;
+    d.style.animationDuration = `${2.6 + Math.random() * 3.6}s`;
+    d.style.animationDelay = `${Math.random() * 4.5}s`;
+    d.style.transform = `scale(${0.65 + Math.random() * 1.2})`;
+    planet.appendChild(d);
+  }
+</script>
+</body>
+</html>
