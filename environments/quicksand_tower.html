@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>流沙塔 - 异星环境基座</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #120f09;
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  }
+  .planet {
+    position: relative;
+    width: min(94vw, 980px);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 8px;
+    background:
+      radial-gradient(ellipse at 48% 105%, rgba(255, 210, 122, 0.46), transparent 42%),
+      radial-gradient(ellipse at 80% 40%, rgba(81, 126, 55, 0.18), transparent 18%),
+      linear-gradient(180deg, #2d2116 0%, #674828 46%, #c69550 82%, #e1b779 100%);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), inset 0 0 90px rgba(83, 52, 22, 0.28);
+  }
+  .label {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    z-index: 20;
+    color: rgba(255, 246, 229, 0.86);
+    font-size: 14px;
+  }
+  .dune {
+    position: absolute;
+    bottom: -4%;
+    width: 38%;
+    height: 16%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 10%, rgba(245, 198, 116, 0.62), transparent 74%);
+  }
+  .d1 { left: 4%; }
+  .d2 { left: 46%; width: 32%; opacity: 0.72; }
+  .tower {
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    width: 28px;
+    height: 66%;
+    border-radius: 14px 14px 0 0;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 17px, rgba(0, 0, 0, 0.25) 18px 21px),
+      linear-gradient(180deg, #426e34 0%, #213f1c 56%, #3d2818 100%);
+    box-shadow: 0 0 26px rgba(31, 74, 25, 0.42);
+    z-index: 4;
+  }
+  .tower-top {
+    position: absolute;
+    right: 5%;
+    bottom: 64%;
+    width: 9%;
+    height: 7%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 45% 42%, #5a8a45, #22471d 72%);
+    z-index: 5;
+    animation: sway 10s ease-in-out infinite;
+  }
+  .vine {
+    position: absolute;
+    right: 10%;
+    bottom: 30%;
+    width: 4px;
+    height: 19%;
+    border-radius: 999px;
+    background: linear-gradient(to bottom, rgba(94, 132, 46, 0.85), transparent);
+    z-index: 6;
+    transform-origin: top;
+    animation: vine 6s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(2.5deg); }
+  }
+  @keyframes vine {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(8deg); }
+  }
+  .sand-flow, .falling-sand {
+    position: absolute;
+    pointer-events: none;
+  }
+  .sand-flow {
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 239, 198, 0.64), transparent);
+    animation: flow linear infinite;
+  }
+  @keyframes flow {
+    from { transform: translateX(-170px); opacity: 0; }
+    20%, 82% { opacity: 1; }
+    to { transform: translateX(1080px); opacity: 0; }
+  }
+  .falling-sand {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(238, 190, 106, 0.9);
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    from { transform: translateY(0); opacity: 0.95; }
+    to { transform: translateY(70px); opacity: 0; }
+  }
+  .stage {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    z-index: 12;
+    width: min(34%, 330px);
+    aspect-ratio: 1 / 0.88;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: rgba(255, 246, 229, 0.92);
+    border: 3px dashed rgba(255, 246, 229, 0.54);
+    border-radius: 8px;
+    background: rgba(47, 31, 18, 0.28);
+    animation: breathe 3.5s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 204, 112, 0.15); }
+    50% { box-shadow: 0 0 42px rgba(255, 204, 112, 0.36); }
+  }
+  .stage strong { display: block; font-size: 22px; margin-bottom: 8px; }
+  .stage small { color: rgba(255, 246, 229, 0.68); line-height: 1.7; }
+</style>
+</head>
+<body>
+<main class="planet" id="planet" aria-label="流沙塔环境">
+  <div class="label">流沙塔 / 松软流沙、巨柱植物、孤立生态岛</div>
+  <div class="dune d1" aria-hidden="true"></div>
+  <div class="dune d2" aria-hidden="true"></div>
+  <div class="tower" aria-hidden="true"></div>
+  <div class="tower-top" aria-hidden="true"></div>
+  <div class="vine" aria-hidden="true"></div>
+  <section class="stage" id="creature-stage">
+    <div><strong>异星生物舞台</strong><small>学生将在这里加入大脚掌、锚爪或滑翔跳跃型生物</small></div>
+  </section>
+</main>
+<script>
+  const planet = document.getElementById("planet");
+  for (let i = 0; i < 12; i++) {
+    const flow = document.createElement("i");
+    flow.className = "sand-flow";
+    flow.style.top = `${28 + Math.random() * 62}%`;
+    flow.style.left = `${-20 + Math.random() * 30}%`;
+    flow.style.width = `${240 + Math.random() * 520}px`;
+    flow.style.animationDuration = `${4.6 + Math.random() * 5.6}s`;
+    flow.style.animationDelay = `${Math.random() * 6}s`;
+    planet.appendChild(flow);
+  }
+  for (let i = 0; i < 34; i++) {
+    const sand = document.createElement("i");
+    sand.className = "falling-sand";
+    sand.style.left = `${73 + Math.random() * 10}%`;
+    sand.style.top = `${8 + Math.random() * 46}%`;
+    sand.style.animationDuration = `${1.4 + Math.random() * 2.2}s`;
+    sand.style.animationDelay = `${Math.random() * 4}s`;
+    planet.appendChild(sand);
+  }
+</script>
+</body>
+</html>
