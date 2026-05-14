@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冰火轮 - 异星环境基座</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #03030b;
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  }
+  .planet {
+    position: relative;
+    width: min(94vw, 980px);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 8px;
+    background:
+      radial-gradient(circle at 25% 24%, rgba(255, 238, 150, 0.22), transparent 22%),
+      radial-gradient(circle at 78% 22%, rgba(197, 232, 255, 0.28), transparent 24%),
+      linear-gradient(90deg, #9f3218 0%, #e16a32 33%, #f8c49d 49%, #a8cce9 55%, #3c73a6 100%);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), inset 0 0 95px rgba(0, 0, 0, 0.2);
+  }
+  .label {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    z-index: 20;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+  }
+  .heat {
+    position: absolute;
+    inset: 0 50% 0 0;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 12px, rgba(255, 236, 174, 0.12) 13px 16px, transparent 18px 34px);
+    animation: shimmer 2.8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { transform: translateX(0) skewX(0deg); filter: blur(0); }
+    50% { transform: translateX(-8px) skewX(-2deg); filter: blur(1px); }
+  }
+  .frost-field {
+    position: absolute;
+    inset: 0 0 0 50%;
+    background:
+      linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.11) 43% 45%, transparent 46%),
+      linear-gradient(35deg, transparent 0 58%, rgba(255, 255, 255, 0.1) 59% 61%, transparent 62%);
+    opacity: 0.72;
+  }
+  .border-line {
+    position: absolute;
+    top: -5%;
+    bottom: -5%;
+    left: 50%;
+    width: 5px;
+    transform: translateX(-50%);
+    background: rgba(255, 253, 210, 0.58);
+    box-shadow: 0 0 30px rgba(255, 132, 44, 0.85), 0 0 46px rgba(104, 201, 255, 0.7);
+    animation: borderPulse 2s ease-in-out infinite;
+  }
+  @keyframes borderPulse {
+    0%, 100% { opacity: 0.48; }
+    50% { opacity: 1; }
+  }
+  .sand, .ice, .snow {
+    position: absolute;
+    pointer-events: none;
+  }
+  .sand {
+    border-radius: 1px;
+    background: rgba(255, 194, 96, 0.9);
+    animation: sand 3.5s linear infinite;
+  }
+  @keyframes sand {
+    from { transform: translate(0, -10px); opacity: 0; }
+    20%, 80% { opacity: 0.9; }
+    to { transform: translate(-24px, 36px); opacity: 0; }
+  }
+  .ice {
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(173, 224, 255, 0.36) 60%, transparent 80%);
+    animation: iceFloat 5s ease-in-out infinite;
+  }
+  @keyframes iceFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(12deg); }
+  }
+  .snow {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.86);
+    animation: snowfall linear infinite;
+  }
+  @keyframes snowfall {
+    from { transform: translateY(-18px) translateX(0); opacity: 0.7; }
+    to { transform: translateY(640px) translateX(26px); opacity: 0; }
+  }
+  .stage {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    z-index: 12;
+    width: min(34%, 330px);
+    aspect-ratio: 1 / 0.88;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.93);
+    border: 3px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    background: rgba(13, 13, 18, 0.34);
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 231, 150, 0.18); }
+    50% { box-shadow: 0 0 42px rgba(132, 216, 255, 0.32); }
+  }
+  .stage strong { display: block; font-size: 22px; margin-bottom: 8px; }
+  .stage small { color: rgba(255, 255, 255, 0.7); line-height: 1.7; }
+</style>
+</head>
+<body>
+<main class="planet" id="planet" aria-label="冰火轮环境">
+  <div class="label">冰火轮 / 强紫外、极热白昼、极寒长夜</div>
+  <div class="heat" aria-hidden="true"></div>
+  <div class="frost-field" aria-hidden="true"></div>
+  <div class="border-line" aria-hidden="true"></div>
+  <section class="stage" id="creature-stage">
+    <div><strong>异星生物舞台</strong><small>学生将在这里加入反光、抗冻或休眠切换型生物</small></div>
+  </section>
+</main>
+<script>
+  const planet = document.getElementById("planet");
+  for (let i = 0; i < 52; i++) {
+    const s = document.createElement("i");
+    s.className = "sand";
+    const size = 2 + Math.random() * 4;
+    s.style.width = `${size}px`;
+    s.style.height = `${size}px`;
+    s.style.left = `${Math.random() * 47}%`;
+    s.style.top = `${Math.random() * 100}%`;
+    s.style.animationDuration = `${2.2 + Math.random() * 2.8}s`;
+    s.style.animationDelay = `${Math.random() * 4}s`;
+    planet.appendChild(s);
+  }
+  for (let i = 0; i < 28; i++) {
+    const ice = document.createElement("i");
+    ice.className = "ice";
+    const size = 7 + Math.random() * 22;
+    ice.style.width = `${size}px`;
+    ice.style.height = `${size}px`;
+    ice.style.left = `${55 + Math.random() * 40}%`;
+    ice.style.top = `${8 + Math.random() * 84}%`;
+    ice.style.animationDuration = `${3.4 + Math.random() * 4.6}s`;
+    ice.style.animationDelay = `${Math.random() * 5}s`;
+    planet.appendChild(ice);
+  }
+  for (let i = 0; i < 24; i++) {
+    const snow = document.createElement("i");
+    snow.className = "snow";
+    snow.style.left = `${56 + Math.random() * 40}%`;
+    snow.style.top = `${-5 - Math.random() * 30}px`;
+    snow.style.animationDuration = `${4 + Math.random() * 5}s`;
+    snow.style.animationDelay = `${Math.random() * 6}s`;
+    planet.appendChild(snow);
+  }
+</script>
+</body>
+</html>
