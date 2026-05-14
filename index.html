@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>异星适应者 - 环境基座预览</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: #f7f2e8;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(85, 168, 188, 0.24), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(224, 154, 72, 0.22), transparent 24%),
+        linear-gradient(135deg, #11131a 0%, #1c2026 52%, #16130f 100%);
+    }
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+    .intro {
+      max-width: 780px;
+      margin: 0 0 28px;
+      color: rgba(247, 242, 232, 0.78);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    a.card {
+      display: block;
+      min-height: 184px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.065);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+    a.card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.32);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .tag {
+      display: inline-block;
+      margin-bottom: 34px;
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 13px;
+    }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .wind { background: linear-gradient(145deg, rgba(87, 42, 30, 0.9), rgba(20, 12, 10, 0.82)); }
+    .syrup { background: linear-gradient(145deg, rgba(88, 39, 112, 0.9), rgba(33, 15, 43, 0.82)); }
+    .icefire { background: linear-gradient(115deg, rgba(197, 82, 35, 0.9), rgba(245, 198, 150, 0.75) 49%, rgba(58, 111, 160, 0.9)); }
+    .forest { background: linear-gradient(145deg, rgba(37, 82, 58, 0.9), rgba(134, 190, 156, 0.58)); }
+    .sand { background: linear-gradient(145deg, rgba(190, 141, 72, 0.9), rgba(57, 38, 22, 0.84)); }
+    .docs {
+      margin-top: 28px;
+      padding: 18px 0 0;
+      color: rgba(247, 242, 232, 0.76);
+      line-height: 1.9;
+    }
+    .docs a { color: #aee3ff; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>异星适应者</h1>
+    <p class="intro">五个外星环境基座。教师可以先打开这些场景，学生再用 Vibe Coding 把自己的异星生物、适应标注和生存挑战加入舞台区。</p>
+    <section class="grid" aria-label="环境基座">
+      <a class="card wind" href="environments/wind_rock.html"><span class="tag">A / Wind Rock</span><h2>风吼岩</h2><p>强风、岩石地表、地热裂缝。适合设计锚定、潜地、风能利用型生物。</p></a>
+      <a class="card syrup" href="environments/syrup_sea.html"><span class="tag">B / Syrup Sea</span><h2>糖浆海</h2><p>低重力高粘度液体。适合设计滤食、波动推进、浮力控制型生物。</p></a>
+      <a class="card icefire" href="environments/ice_fire_wheel.html"><span class="tag">C / Ice-Fire Wheel</span><h2>冰火轮</h2><p>一半灼热、一半冰寒。适合设计温差调节、反光防晒、休眠切换型生物。</p></a>
+      <a class="card forest" href="environments/floating_forest.html"><span class="tag">D / Floating Forest</span><h2>浮空林</h2><p>稠密大气与空中森林。适合设计气囊、伞膜、共生光合型生物。</p></a>
+      <a class="card sand" href="environments/quicksand_tower.html"><span class="tag">E / Quicksand Tower</span><h2>流沙塔</h2><p>流沙地表与巨柱生态岛。适合设计大脚掌、锚爪、滑翔跳跃型生物。</p></a>
+    </section>
+    <section class="docs">
+      <strong>教学文档：</strong>
+      <a href="docs/project_overview.md">项目总览</a> /
+      <a href="docs/teacher_guide.md">教师引导</a> /
+      <a href="docs/student_mission_card.md">学生任务卡</a> /
+      <a href="docs/shooting_plan.md">拍摄方案</a>
+    </section>
+  </main>
+</body>
+</html>
